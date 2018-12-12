@@ -6,42 +6,58 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var numberButtons = document.getElementsByClassName("buttonNum");
   var operatorButtons = document.getElementsByClassName("operator");
+  var equalsButton = document.getElementsByClassName("equals")[0];
 
-  function getNumber() {
+  function updateScreen(text) {
+    var idScreen = document.getElementById("screen");
+    idScreen.innerHTML = text;
+  }
+
+  function numberClick() {
     for (i = 0; i < numberButtons.length; i++) {
-      numberButtons[i].addEventListener("click", function() {
-        if (calculatorStage == 0 || calculatorStage == 2) {
-          equation += this.innerHTML;
-          console.log(equation);
-          calculatorStage += 1;
-
-          if (calculatorStage == 1) {
-            getOperator();
-          } else {
-            getResult();
-          }
-
-        }
-
-      });
+      numberButtons[i].addEventListener("click", numberFunction);
     }
   }
 
-  function getOperator() {
+  function numberFunction() {
+    if (calculatorStage == 0 || calculatorStage == 2) {
+      equation += this.innerHTML;
+      updateScreen(equation);
+      calculatorStage += 1;
+
+      if (calculatorStage == 1) {
+        operatorClick();
+      } else {
+        resultClick();
+      }
+    }
+  }
+
+  function operatorClick() {
     for (i = 0; i < operatorButtons.length; i++) {
-      operatorButtons[i].addEventListener("click", function() {
-        if (calculatorStage == 1) {
-          equation += this.innerHTML;
-          console.log(equation);
-          calculatorStage += 1;
-          getNumber();
-        }
-
-      });
+      operatorButtons[i].addEventListener("click", operatorFunction);
     }
   }
 
-  getNumber();
+  function operatorFunction() {
+    if (calculatorStage == 1) {
+      equation += this.innerHTML;
+      updateScreen(equation);
+      calculatorStage += 1;
+      numberClick();
+    }
+  }
+
+  function resultClick() {
+    equalsButton.addEventListener("click", resultFunction);
+  }
+
+  function resultFunction() {
+    result = eval(equation);
+    updateScreen(result);
+  }
+
+  numberClick();
 
 
 });
