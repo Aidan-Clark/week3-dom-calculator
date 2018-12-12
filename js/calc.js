@@ -1,23 +1,25 @@
 document.addEventListener("DOMContentLoaded", function() {
-  var keepRunning = true;
   var calculatorStage = 0;
   var equation = "";
-
 
   var numberButtons = document.getElementsByClassName("buttonNum");
   var operatorButtons = document.getElementsByClassName("operator");
   var equalsButton = document.getElementsByClassName("equals")[0];
+  var clearButton = document.getElementsByClassName("buttonClear")[0];
+
 
   function updateScreen(text) {
     var idScreen = document.getElementById("screen");
     idScreen.innerHTML = text;
   }
 
+
   function numberClick() {
     for (i = 0; i < numberButtons.length; i++) {
       numberButtons[i].addEventListener("click", numberFunction);
     }
   }
+
 
   function numberFunction() {
     if (calculatorStage == 0 || calculatorStage == 2) {
@@ -33,11 +35,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+
   function operatorClick() {
     for (i = 0; i < operatorButtons.length; i++) {
       operatorButtons[i].addEventListener("click", operatorFunction);
     }
   }
+
 
   function operatorFunction() {
     if (calculatorStage == 1) {
@@ -48,16 +52,32 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+
   function resultClick() {
     equalsButton.addEventListener("click", resultFunction);
   }
 
+
   function resultFunction() {
     result = eval(equation);
     updateScreen(result);
+    clearClick();
   }
 
-  numberClick();
 
+  function clearClick() {
+    clearButton.addEventListener("click", clearFunction);
+  }
+
+
+  function clearFunction() {
+    equation = "";
+    calculatorStage = 0;
+    updateScreen("Sparta Calculator");
+    numberClick();
+  }
+
+
+  numberClick();
 
 });
